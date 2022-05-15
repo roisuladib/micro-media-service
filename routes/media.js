@@ -10,8 +10,8 @@ router.get('/', async (req, res) => {
   const media = await Media.findAll({
     attributes: ['id', 'image']
   });
-  const mappedMedia = media.map((i) => {
-    i.image = `${req.get('host')}/${i.image}`;
+  const mappedMedia = media.map(i => {
+    i.image = `${req.protocol}${'://'}${req.get('host')}/${i.image}`;
     return i;
   })
   return res.json({
@@ -43,7 +43,7 @@ router.post('/upload', (req, res) => {
       status: 'success',
       data: {
         id: media.id,
-        image: `${req.get('host')}/images/${filename}`  
+        image: `${req.protocol}${'://'}${req.get('host')}/images/${filename}`  
       }
     });
   });
